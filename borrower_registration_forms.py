@@ -4343,8 +4343,7 @@ class BorrowerScreen(Screen):
         if user_email in id_list:
             index = id_list.index(user_email)
             self.ids.username.text = data[index]['full_name']
-            self.ids.gender_id.text = data[index]['gender']
-            self.ids.date_textfield.text = data[index]['date_of_birth']
+
         else:
             print('email not found')
 
@@ -4527,7 +4526,6 @@ class BorrowerScreen1(Screen):
             # Ensure index is within the bounds of the data and photo lists
             if index < len(data):
                 self.ids.mobile_number.text = data[index]['mobile']
-                self.ids.alternate_email.text = data[index]['mail_id']
             else:
                 print(f"Index {index} out of range for data list of length {len(data)}")
                 return
@@ -9450,7 +9448,7 @@ class BorrowerScreen19(Screen):
             app_tables.fin_borrower.add_row(
                 email_id=user_email,
                 user_name=data[index]['full_name'],
-                beseem_score=float(ascend),
+                ascend_score=float(ascend),
                 customer_id=user_id_list[index],
                 bank_acc_details=data[index]['account_number'],
                 credit_limit=limit,

@@ -3,6 +3,7 @@ import json
 import sqlite3
 from datetime import datetime
 import base64
+import os
 from anvil import media
 from io import BytesIO
 from kivy.core.image import Image as CoreImage
@@ -63,7 +64,6 @@ user_helpers = '''
     BusinessScreen
     BankScreen:
     StudentScreen:
-    StudentScreen1:
     ProfessionalScreen:
     FarmerScreen:
     EmployeeScreen:
@@ -7375,17 +7375,17 @@ class DashboardScreen(Screen):
             # Handle this case as per your application's logic
         elif employee == 'business' or employee == 'Business':
             if not self.manager.has_screen('business'):
-                self.manager.add_widget(Factory.BusinessScreen(name='BusinessScreen'))
-            self.manager.current = 'BusinessScreen'
+                self.manager.add_widget(Factory.BusinessScreen(name='BusinessScreen1'))
+            self.manager.current = 'BusinessScreen1'
         else:
             if not self.manager.has_screen('None'):
-                self.manager.add_widget(Factory.BusinessScreen1(name='BusinessScreen1'))
-            self.manager.current = 'BusinessScreen1'
+                self.manager.add_widget(Factory.BusinessScreen1(name='BusinessScreen2'))
+            self.manager.current = 'BusinessScreen2'
 
     def show_no_business_screen(self):
         if not self.manager.has_screen('None'):
-            self.manager.add_widget(Factory.BusinessScreen1(name='BusinessScreen1'))
-        self.manager.current = 'BusinessScreen1'
+            self.manager.add_widget(Factory.BusinessScreen1(name='BusinessScreen2'))
+        self.manager.current = 'BusinessScreen2'
 
     def get_profession1(self):
         email = self.get_email()
@@ -7408,26 +7408,26 @@ class DashboardScreen(Screen):
         profession, employee = self.get_profession()
         if profession is None:
             if not self.manager.has_screen('None'):
-                self.manager.add_widget(Factory.ProfessionalScreen(name='ProfessionalScreen'))
-            self.manager.current = 'ProfessionalScreen'
+                self.manager.add_widget(Factory.ProfessionalScreen(name='ProfessionalScreen1'))
+            self.manager.current = 'ProfessionalScreen1'
             print("Profession is not available for the user.")
             # Handle this case as per your application's logic
         elif profession == 'student' or profession == 'Student':
             if not self.manager.has_screen('StudentScreen'):
-                self.manager.add_widget(Factory.StudentScreen(name='StudentScreen'))
-            self.manager.current = 'StudentScreen'
+                self.manager.add_widget(Factory.StudentScreen(name='StudentScreen1'))
+            self.manager.current = 'StudentScreen1'
         elif profession == 'employee' or profession == 'Employee':
             if not self.manager.has_screen('EmployeeScreen'):
-                self.manager.add_widget(Factory.EmployeeScreen(name='EmployeeScreen'))
-            self.manager.current = 'EmployeeScreen'
+                self.manager.add_widget(Factory.EmployeeScreen(name='EmployeeScreen1'))
+            self.manager.current = 'EmployeeScreen1'
         elif employee == 'farmer' or employee == 'Farmer':
             if not self.manager.has_screen('FarmerScreen'):
-                self.manager.add_widget(Factory.FarmerScreen(name='FarmerScreen'))
-            self.manager.current = 'FarmerScreen'
+                self.manager.add_widget(Factory.FarmerScreen(name='FarmerScreen1'))
+            self.manager.current = 'FarmerScreen1'
         else:
             if not self.manager.has_screen('None'):
-                self.manager.add_widget(Factory.ProfessionalScreen(name='ProfessionalScreen'))
-            self.manager.current = 'ProfessionalScreen'
+                self.manager.add_widget(Factory.ProfessionalScreen(name='ProfessionalScreen1'))
+            self.manager.current = 'ProfessionalScreen1'
             print(f"Unknown profession: {profession}")
 
     def get_profession(self):
@@ -7444,8 +7444,8 @@ class DashboardScreen(Screen):
             return None, None
 
     def Edit_email(self):
-        self.manager.add_widget(Factory.EditScreen7(name='EditScreen7'))
-        self.manager.current = 'EditScreen7'
+        self.manager.add_widget(Factory.EditScreen7(name='EditScreen8'))
+        self.manager.current = 'EditScreen8'
 
     def refresh5(self):
         self.ids.container.clear_widgets()
@@ -7465,8 +7465,8 @@ class DashboardScreen(Screen):
             self.file_manager_open(icon_id, label_id, file_label_id, image_id)
 
     def on_edit(self):
-        self.manager.add_widget(Factory.EditScreen(name='EditScreen'))
-        self.manager.current = 'EditScreen'
+        self.manager.add_widget(Factory.EditScreen(name='EditScreen1'))
+        self.manager.current = 'EditScreen1'
 
     def file_manager_open(self, icon_id, label_id, file_label_id, image_id):
         self.file_manager = MDFileManager(
@@ -8392,8 +8392,8 @@ class AccountScreen(Screen):
         return anvil.server.call('another_method')
 
     def go_to_personal(self):
-        self.manager.add_widget(Factory.PersonalScreen(name='PersonalScreen1'))
-        self.manager.current = 'PersonalScreen1'
+        self.manager.add_widget(Factory.PersonalScreen(name='PersonalScreen'))
+        self.manager.current = 'PersonalScreen'
 
     def on_back_button_press(self):
         self.manager.transition = SlideTransition(direction='right')
@@ -8403,8 +8403,8 @@ class AccountScreen(Screen):
         pass
 
     def go_to_profile(self):
-        self.manager.add_widget(Factory.ProfileScreen(name='ProfileScreen1'))
-        self.manager.current = 'ProfileScreen1'
+        self.manager.add_widget(Factory.ProfileScreen(name='ProfileScreen'))
+        self.manager.current = 'ProfileScreen'
 
     def go_to_business(self):
         employee = self.get_profession1()
@@ -8489,7 +8489,10 @@ class AccountScreen(Screen):
 
 class BusinessScreen1(Screen):
     def on_back_button_press(self):
-        self.manager.current = 'AccountScreen'
+        if self.manager.current == 'BusinessScreen2':
+            self.manager.current = 'DashboardScreen'
+        else:
+            self.manager.current = 'AccountScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -8509,7 +8512,10 @@ class BusinessScreen1(Screen):
 
 class ProfessionalScreen(Screen):
     def on_back_button_press(self):
-        self.manager.current = 'AccountScreen'
+        if self.manager.current == 'ProfessionalScreen1':
+            self.manager.current = 'DashboardScreen'
+        else:
+            self.manager.current = 'AccountScreen'
 
     def on_pre_enter(self):
         Window.bind(on_keyboard=self.on_back_button)
@@ -8654,7 +8660,10 @@ class EmployeeScreen(Screen):
         self.manager.current = 'EditScreen4'
 
     def on_back_button_press(self):
-        self.manager.current = 'AccountScreen'
+        if self.manager.current == 'EmployeeScreen1':
+            self.manager.current = 'DashboardScreen'
+        else:
+            self.manager.current = 'AccountScreen'
 
     def get_email(self):
         # Make a call to the Anvil server function
@@ -8676,6 +8685,8 @@ class EmployeeScreen(Screen):
 
 
 class EditScreen4(Screen):
+    MAX_IMAGE_SIZE_MB = 2
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         gender_data = app_tables.fin_occupation_type.search()
@@ -8780,34 +8791,34 @@ class EditScreen4(Screen):
             else:
                 employee_id.append(None)
 
-                if row['last_six_month_bank_proof']:
-                    image_data = row['last_six_month_bank_proof'].get_bytes()
-                    if isinstance(image_data, bytes):
-                        print(f"Image data type: {type(image_data)}, length: {len(image_data)}")
-                        # Assuming image_data is already a binary image file
-                        try:
-                            profile_texture_io = BytesIO(image_data)
-                            profile_texture_obj = CoreImage(profile_texture_io, ext='png').texture
-                            last_six_months.append(profile_texture_obj)
-                        except Exception as e:
-                            print(f"Error processing image for email {row['email_user']}: {e}")
-                            last_six_months.append(None)
-                    else:
-                        # If image_data is not bytes, assume it's base64 encoded and decode it
-                        try:
-                            image_data_binary = base64.b64decode(image_data)
-                            print(f"Decoded image data length: {len(image_data_binary)}")
-                            profile_texture_io = BytesIO(image_data_binary)
-                            profile_texture_obj = CoreImage(profile_texture_io, ext='png').texture
-                            last_six_months.append(profile_texture_obj)
-                        except base64.binascii.Error as e:
-                            print(f"Base64 decoding error for email {row['email_user']}: {e}")
-                            last_six_months.append(None)
-                        except Exception as e:
-                            print(f"Error processing image for email {row['email_user']}: {e}")
-                            last_six_months.append(None)
+            if row['last_six_month_bank_proof']:
+                image_data = row['last_six_month_bank_proof'].get_bytes()
+                if isinstance(image_data, bytes):
+                    print(f"Image data type: {type(image_data)}, length: {len(image_data)}")
+                    # Assuming image_data is already a binary image file
+                    try:
+                        profile_texture_io = BytesIO(image_data)
+                        profile_texture_obj = CoreImage(profile_texture_io, ext='png').texture
+                        last_six_months.append(profile_texture_obj)
+                    except Exception as e:
+                        print(f"Error processing image for email {row['email_user']}: {e}")
+                        last_six_months.append(None)
                 else:
-                    last_six_months.append(None)
+                    # If image_data is not bytes, assume it's base64 encoded and decode it
+                    try:
+                        image_data_binary = base64.b64decode(image_data)
+                        print(f"Decoded image data length: {len(image_data_binary)}")
+                        profile_texture_io = BytesIO(image_data_binary)
+                        profile_texture_obj = CoreImage(profile_texture_io, ext='png').texture
+                        last_six_months.append(profile_texture_obj)
+                    except base64.binascii.Error as e:
+                        print(f"Base64 decoding error for email {row['email_user']}: {e}")
+                        last_six_months.append(None)
+                    except Exception as e:
+                        print(f"Error processing image for email {row['email_user']}: {e}")
+                        last_six_months.append(None)
+            else:
+                last_six_months.append(None)
 
             email1.append(row['email_user'])
             company_name.append(row['company_name'])
@@ -8848,25 +8859,43 @@ class EditScreen4(Screen):
             print(f"Email {email} not found in data.")
 
     def check_and_open_file_manager1(self):
-        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "employee_id")
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "employee_id",
+                                         self.upload_image)
 
     def check_and_open_file_manager2(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1",
-                                         "last_six_months_bank_statement")
+                                         "last_six_months_bank_statement", self.upload_image1)
 
-    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id):
+    def show_validation_error(self, error_message):
+        dialog = MDDialog(
+            title="Validation Error",
+            text=error_message,
+            size_hint=(0.8, None),
+            height=dp(200),
+            buttons=[
+                MDRectangleFlatButton(
+                    text="OK",
+                    text_color=(0.043, 0.145, 0.278, 1),
+                    on_release=lambda x: dialog.dismiss()
+                )
+            ]
+        )
+        dialog.open()
+
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, upload_function):
         if platform == 'android':
             if check_permission(Permission.READ_MEDIA_IMAGES):
-                self.file_manager_open(icon_id, label_id, file_label_id, image_id)
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, upload_function)
             else:
                 self.request_media_images_permission()
         else:
-            self.file_manager_open(icon_id, label_id, file_label_id, image_id)
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, upload_function)
 
-    def file_manager_open(self, icon_id, label_id, file_label_id, image_id):
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, upload_function):
         self.file_manager = MDFileManager(
             exit_manager=self.exit_manager,
-            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id),
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       upload_function),
         )
         if platform == 'android':
             primary_external_storage = "/storage/emulated/0"
@@ -8874,29 +8903,16 @@ class EditScreen4(Screen):
         else:
             self.file_manager.show('/')
 
-    def file_manager_open(self, icon_id, label_id, file_label_id, image_id):
-        self.file_manager = MDFileManager(
-            exit_manager=self.exit_manager,
-            select_path=lambda path: self.select_path2(path, icon_id, label_id, file_label_id, image_id),
-        )
-        if platform == 'android':
-            primary_external_storage = "/storage/emulated/0"
-            self.file_manager.show(primary_external_storage)
-        else:
-            self.file_manager.show('/')
-
-    def select_path1(self, path, icon_id, label_id, file_label_id, image_id):
-        self.upload_image(path)  # Upload the selected image
-        self.ids[image_id].source = path
-        self.file_manager.close()
-
-    def select_path2(self, path, icon_id, label_id, file_label_id, image_id):
-        self.upload_image1(path)  # Upload the selected image
-        self.ids[image_id].source = path
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, upload_function):
+        upload_function(path)  # Upload the selected image using the provided function
+        self.ids[image_id].source = path if os.path.getsize(path) <= self.MAX_IMAGE_SIZE_MB * 1024 * 1024 else ''
         self.file_manager.close()
 
     def upload_image(self, file_path):
         try:
+            if os.path.getsize(file_path) > self.MAX_IMAGE_SIZE_MB * 1024 * 1024:
+                self.show_validation_error(f"File size should be less than {self.MAX_IMAGE_SIZE_MB}MB")
+                return
             user_photo_media = media.from_file(file_path, mime_type='image/png')
 
             email = self.get_email()
@@ -8912,11 +8928,15 @@ class EditScreen4(Screen):
             user_data['emp_id_proof'] = user_photo_media
 
             print("Image uploaded successfully.")
+            self.ids['employee_id'].source = ''
         except Exception as e:
             print(f"Error uploading image: {e}")
 
     def upload_image1(self, file_path):
         try:
+            if os.path.getsize(file_path) > self.MAX_IMAGE_SIZE_MB * 1024 * 1024:
+                self.show_validation_error(f"File size should be less than {self.MAX_IMAGE_SIZE_MB}MB")
+                return
             user_photo_media = media.from_file(file_path, mime_type='image/png')
 
             email = self.get_email()
@@ -8932,6 +8952,7 @@ class EditScreen4(Screen):
             user_data['last_six_month_bank_proof'] = user_photo_media
 
             print("Image uploaded successfully.")
+            self.ids['last_six_months_bank_statement'].source = ''
         except Exception as e:
             print(f"Error uploading image: {e}")
 
@@ -9017,7 +9038,12 @@ class EditScreen4(Screen):
         view.open()
 
     def on_back_button_press(self):
-        self.manager.current = 'EmployeeScreen'
+        current_screen = self.manager.current
+
+        if current_screen == 'EditScreen4':
+            self.manager.current = 'EmployeeScreen1'
+        else:
+            self.manager.current = 'EmployeeScreen'
 
     def get_email(self):
         # Make a call to the Anvil server function
@@ -9105,7 +9131,10 @@ class StudentScreen(Screen):
         self.manager.current = 'EditScreen3'
 
     def on_back_button_press(self):
-        self.manager.current = 'AccountScreen'
+        if self.manager.current == 'StudentScreen1':
+            self.manager.current = 'DashboardScreen'
+        else:
+            self.manager.current = 'AccountScreen'
 
     def get_email(self):
         # Make a call to the Anvil server function
@@ -9270,7 +9299,12 @@ class EditScreen3(Screen):
             return False
 
     def on_back_button_press(self):
-        self.manager.current = 'StudentScreen'
+        current_screen = self.manager.current
+
+        if current_screen == 'EditScreen3':
+            self.manager.current = 'StudentScreen1'
+        else:
+            self.manager.current = 'StudentScreen'
 
     def get_email(self):
         # Make a call to the Anvil server function
@@ -9317,7 +9351,10 @@ class FarmerScreen(Screen):
         pass
 
     def on_back_button_press(self):
-        self.manager.current = 'AccountScreen'
+        if self.manager.current == 'FarmerScreen1':
+            self.manager.current = 'DashboardScreen'
+        else:
+            self.manager.current = 'AccountScreen'
 
     def get_email(self):
         # Make a call to the Anvil server function
@@ -9424,7 +9461,12 @@ class EditScreen2(Screen):
             return False
 
     def on_back_button_press(self):
-        self.manager.current = 'FarmerScreen'
+        current_screen = self.manager.current
+
+        if current_screen == 'EditScreen2':
+            self.manager.current = 'FarmerScreen1'
+        else:
+            self.manager.current = 'FarmerScreen'
 
     def get_email(self):
         # Make a call to the Anvil server function
@@ -9739,10 +9781,16 @@ class PersonalScreen(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'AccountScreen'
+        if self.manager.current == 'PersonalScreen1':
+            self.manager.current = 'DashboardScreen'
+        else:
+            self.manager.current = 'AccountScreen'
 
     def on_back_button_press(self):
-        self.manager.current = 'AccountScreen'
+        if self.manager.current == 'PersonalScreen1':
+            self.manager.current = 'DashboardScreen'
+        else:
+            self.manager.current = 'AccountScreen'
 
 
 class EditScreen7(Screen):
@@ -9985,10 +10033,16 @@ class EditScreen7(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'ViewAccountScreen'
+        if self.manager.current == 'EditScreen8':
+            self.manager.current = 'DashboardScreen'
+        else:
+            self.manager.current = 'AccountScreen'
 
     def on_back_button_press(self):
-        self.manager.current = 'ViewAccountScreen'
+        if self.manager.current == 'EditScreen8':
+            self.manager.current = 'DashboardScreen'
+        else:
+            self.manager.current = 'AccountScreen'
 
     def refresh(self):
         self.__init__()
@@ -10353,6 +10407,7 @@ class BusinessScreen(Screen):
 
 
 class EditScreen5(Screen):
+    MAX_IMAGE_SIZE_MB = 2
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         gender_data = app_tables.fin_borrower_no_of_employees.search()
@@ -10494,36 +10549,43 @@ class EditScreen5(Screen):
             print(f"Email {email} not found in data.")
 
     def check_and_open_file_manager1(self):
-        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "six_bank")
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "six_bank",
+                                         self.upload_image)
 
     def check_and_open_file_manager2(self):
         self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1",
-                                         "proof")
+                                         "proof", self.upload_image1)
 
-    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id):
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, upload_function):
         if platform == 'android':
             if check_permission(Permission.READ_MEDIA_IMAGES):
-                self.file_manager_open(icon_id, label_id, file_label_id, image_id)
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, upload_function)
             else:
                 self.request_media_images_permission()
         else:
-            self.file_manager_open(icon_id, label_id, file_label_id, image_id)
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, upload_function)
 
-    def file_manager_open(self, icon_id, label_id, file_label_id, image_id):
-        self.file_manager = MDFileManager(
-            exit_manager=self.exit_manager,
-            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id),
+    def show_validation_error(self, error_message):
+        dialog = MDDialog(
+            title="Validation Error",
+            text=error_message,
+            size_hint=(0.8, None),
+            height=dp(200),
+            buttons=[
+                MDRectangleFlatButton(
+                    text="OK",
+                    text_color=(0.043, 0.145, 0.278, 1),
+                    on_release=lambda x: dialog.dismiss()
+                )
+            ]
         )
-        if platform == 'android':
-            primary_external_storage = "/storage/emulated/0"
-            self.file_manager.show(primary_external_storage)
-        else:
-            self.file_manager.show('/')
+        dialog.open()
 
-    def file_manager_open(self, icon_id, label_id, file_label_id, image_id):
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, upload_function):
         self.file_manager = MDFileManager(
             exit_manager=self.exit_manager,
-            select_path=lambda path: self.select_path2(path, icon_id, label_id, file_label_id, image_id),
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       upload_function),
         )
         if platform == 'android':
             primary_external_storage = "/storage/emulated/0"
@@ -10538,7 +10600,7 @@ class EditScreen5(Screen):
         request_permissions([Permission.READ_MEDIA_IMAGES], self.permission_callback)
 
     def permission_callback(self, permissions, grants):
-        if all(grants.values()):
+        if all(grants):
             self.file_manager_open()
         else:
             self.show_permission_denied()
@@ -10554,14 +10616,9 @@ class EditScreen5(Screen):
         )
         view.open()
 
-    def select_path1(self, path, icon_id, label_id, file_label_id, image_id):
-        self.upload_image(path)  # Upload the selected image
-        self.ids[image_id].source = path
-        self.file_manager.close()
-
-    def select_path2(self, path, icon_id, label_id, file_label_id, image_id):
-        self.upload_image1(path)  # Upload the selected image
-        self.ids[image_id].source = path
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, upload_function):
+        upload_function(path)  # Upload the selected image using the provided function
+        self.ids[image_id].source = path if os.path.getsize(path) <= self.MAX_IMAGE_SIZE_MB * 1024 * 1024 else ''
         self.file_manager.close()
 
     def upload_image(self, file_path):
@@ -10687,6 +10744,7 @@ class EditScreen5(Screen):
 
 
 class EditScreen1(Screen):
+    MAX_IMAGE_SIZE_MB = 2
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         gender_data = app_tables.fin_gender.search()
@@ -11008,7 +11066,7 @@ class EditScreen1(Screen):
             user_data = data[0]
 
             # Update user_photo column with the media object
-            user_data['pan_number'] = user_photo_media
+            user_data['pan_photo'] = user_photo_media
 
             print("Image uploaded successfully.")
         except Exception as e:
@@ -11208,33 +11266,53 @@ class EditScreen1(Screen):
     def refresh(self):
         pass
 
+    def show_validation_error(self, error_message):
+        dialog = MDDialog(
+            title="Validation Error",
+            text=error_message,
+            size_hint=(0.8, None),
+            height=dp(200),
+            buttons=[
+                MDRectangleFlatButton(
+                    text="OK",
+                    text_color=(0.043, 0.145, 0.278, 1),
+                    on_release=lambda x: dialog.dismiss()
+                )
+            ]
+        )
+        dialog.open()
+
     def get_table(self):
         # Make a call to the Anvil server function
         # Replace 'YourAnvilFunction' with the actual name of your Anvil server function
         return anvil.server.call('profile')
 
     def check_and_open_file_manager1(self):
-        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1")
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "selected_image1",
+                                         self.upload_image1)
 
     def check_and_open_file_manager2(self):
-        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "upload_gov_id1_img")
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "upload_gov_id1_img",
+                                         self.upload_image2)
 
     def check_and_open_file_manager3(self):
-        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "upload_gov_id2_img")
+        self.check_and_open_file_manager("upload_icon1", "upload_label1", "selected_file_label1", "upload_gov_id2_img",
+                                         self.upload_image3)
 
-    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id):
+    def check_and_open_file_manager(self, icon_id, label_id, file_label_id, image_id, upload_function):
         if platform == 'android':
             if check_permission(Permission.READ_MEDIA_IMAGES):
-                self.file_manager_open(icon_id, label_id, file_label_id, image_id)
+                self.file_manager_open(icon_id, label_id, file_label_id, image_id, upload_function)
             else:
                 self.request_media_images_permission()
         else:
-            self.file_manager_open(icon_id, label_id, file_label_id, image_id)
+            self.file_manager_open(icon_id, label_id, file_label_id, image_id, upload_function)
 
-    def file_manager_open(self, icon_id, label_id, file_label_id, image_id):
+    def file_manager_open(self, icon_id, label_id, file_label_id, image_id, upload_function):
         self.file_manager = MDFileManager(
             exit_manager=self.exit_manager,
-            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id),
+            select_path=lambda path: self.select_path1(path, icon_id, label_id, file_label_id, image_id,
+                                                       upload_function),
         )
         if platform == 'android':
             primary_external_storage = "/storage/emulated/0"
@@ -11242,41 +11320,9 @@ class EditScreen1(Screen):
         else:
             self.file_manager.show('/')
 
-    def file_manager_open(self, icon_id, label_id, file_label_id, image_id):
-        self.file_manager = MDFileManager(
-            exit_manager=self.exit_manager,
-            select_path=lambda path: self.select_path2(path, icon_id, label_id, file_label_id, image_id),
-        )
-        if platform == 'android':
-            primary_external_storage = "/storage/emulated/0"
-            self.file_manager.show(primary_external_storage)
-        else:
-            self.file_manager.show('/')
-
-    def file_manager_open(self, icon_id, label_id, file_label_id, image_id):
-        self.file_manager = MDFileManager(
-            exit_manager=self.exit_manager,
-            select_path=lambda path: self.select_path3(path, icon_id, label_id, file_label_id, image_id),
-        )
-        if platform == 'android':
-            primary_external_storage = "/storage/emulated/0"
-            self.file_manager.show(primary_external_storage)
-        else:
-            self.file_manager.show('/')
-
-    def select_path1(self, path, icon_id, label_id, file_label_id, image_id):
-        self.upload_image1(path)  # Upload the selected image
-        self.ids[image_id].source = path
-        self.file_manager.close()
-
-    def select_path2(self, path, icon_id, label_id, file_label_id, image_id):
-        self.upload_image2(path)  # Upload the selected image
-        self.ids[image_id].source = path
-        self.file_manager.close()
-
-    def select_path3(self, path, icon_id, label_id, file_label_id, image_id):
-        self.upload_image3(path)  # Upload the selected image
-        self.ids[image_id].source = path
+    def select_path1(self, path, icon_id, label_id, file_label_id, image_id, upload_function):
+        upload_function(path)  # Upload the selected image using the provided function
+        self.ids[image_id].source = path if os.path.getsize(path) <= self.MAX_IMAGE_SIZE_MB * 1024 * 1024 else ''
         self.file_manager.close()
 
     def exit_manager(self, *args):
@@ -11316,13 +11362,16 @@ class EditScreen1(Screen):
 
     def go_back(self):
         self.manager.transition = SlideTransition(direction='right')
-        self.manager.current = 'PersonalScreen'
+        if self.manager.current == 'EditScreen1':
+            self.manager.current = 'PersonalScreen1'
+        else:
+            self.manager.current = 'PersonalScreen'
 
     def on_back_button_press(self):
-        sm = self.manager
-        wallet_screen = PersonalScreen(name='PersonalScreen')
-        sm.add_widget(wallet_screen)
-        sm.current = 'PersonalScreen'
+        if self.manager.current == 'EditScreen1':
+            self.manager.current = 'PersonalScreen1'
+        else:
+            self.manager.current = 'PersonalScreen'
 
 
 class MyScreenManager(ScreenManager):
