@@ -10556,5 +10556,6 @@ class BorrowerScreen26(Screen):
         self.manager.current = 'BorrowerScreen25'
 
 
+
 class MyScreenManager(ScreenManager):
     pass
