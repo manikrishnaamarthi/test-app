@@ -21,7 +21,7 @@ import anvil.server
 from datetime import datetime, timedelta, timezone
 from kivymd.uix.spinner import MDSpinner
 from kivy.factory import Factory
-from login import LoginScreen
+from login import LoginScreen, PreLoginScreen
 
 KV = """
 <WindowManager>:
@@ -400,10 +400,10 @@ class SignupScreen(Screen):
         # self.share_email_with_anvil(email)
         # self.manager.current = 'LoginScreen'
         sm = self.manager
-        lender_screen = LoginScreen(name='LoginScreen')
+        lender_screen = PreLoginScreen(name='prelogin')
         sm.add_widget(lender_screen)
         sm.transition.direction = 'left'  # Set the transition direction explicitly
-        sm.current = 'LoginScreen'
+        sm.current = 'prelogin'
 
     def wallet_generator(self, email_user, name, customer_id1):
         wallet = app_tables.fin_wallet.search()
