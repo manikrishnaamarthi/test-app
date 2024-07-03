@@ -796,7 +796,6 @@ class ViewLoansRequest(Screen):
         profile_photo = {}
 
         for loan in data:
-            if loan['loan_id'] == 'LA1000004' or loan['loan_id'] == 'LA1000005':
                 product_id = loan['product_id']
                 print(f"Loan {loan['loan_id']} Product ID: {product_id}")
 
